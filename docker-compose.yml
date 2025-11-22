@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  # To jest kontener z bazą danych
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=prestashop
+      - MYSQL_USER=prestashop
+      - MYSQL_PASSWORD=prestashop
+    volumes:
+      - ./db_data:/var/lib/mysql # Tu zapiszą się dane, żeby nie zniknęły po wyłączeniu
+    networks:
+      - shop-network
+
+  # To jest kontener ze sklepem
+  prestashop:
+    image: prestashop/prestashop:1.7.8
+    ports:
+      - "8080:80" # Twój port 8080 łączy się z portem 80 kontenera
+    environment:
+      - DB_SERVER=mysql
+      - DB_USER=prestashop
+      - DB_PASSWD=prestashop
+      - DB_NAME=prestashop
+      - PS_INSTALL_AUTO=1 # Automatyczna instalacja sklepu!
+      - PS_ERASE_DB=0
+      - PS_DEV_MODE=1 # Tryb developerski (pokazuje błędy, przydatne na studiach)
+      - PS_DOMAIN=localhost:8080
+    volumes:
+      - ./html:/var/www/html # Tu pojawią się pliki sklepu, żebyś mógł je edytować
+    depends_on:
+      - mysql
+    networks:
+      - shop-network
+
+networks:
+  shop-network:

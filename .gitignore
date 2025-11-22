@@ -1,0 +1,48 @@
+# --- BAZA DANYCH (Kluczowe!) ---
+db_data/
+
+# --- PLIKI SYSTEMOWE I IDE ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+*.tmp
+
+# --- KONFIGURACJA DOCKERA (To chcemy wysłać) ---
+!docker-compose.yml
+
+# --- FOLDER HTML (PrestaShop) ---
+# Krok 1: Zablokuj wszystko w folderze html (silnik sklepu)
+html/*
+
+# Krok 2: Odblokuj (wyjątki) to, nad czym będziesz pracował
+
+# Pozwól na plik .gitkeep (żeby folder istniał)
+!html/.gitkeep
+
+# -> MOTYWY (Tutaj będziesz zmieniał wygląd)
+!html/themes/
+# Ale ignoruj cache i assety wewnątrz motywów
+html/themes/*/cache/
+html/themes/*/assets/cache/
+
+# -> MODUŁY (Jeśli napiszesz własny moduł lub zmienisz konfigurację)
+!html/modules/
+# Opcjonalnie: ignoruj domyślne, ciężkie moduły, ale na start bezpieczniej zostawić
+
+# -> OVERRIDES (Nadpisywanie funkcji Presty)
+!html/override/
+
+# -> KONFIGURACJA (Tylko jeśli musicie współdzielić config, zazwyczaj ignorujemy)
+# html/app/config/parameters.php
+
+# -> ZDJĘCIA PRODUKTÓW
+# Wymagania mówią: "dopuszczalne jest umieszczenie zdjęć"
+# Odkomentuj linię niżej, jeśli chcesz wysyłać zdjęcia produktów na GitHuba:
+# !html/img/p/
+
+# --- TWOJE SKRYPTY (Wymagane przez projekt) ---
+!scraper/
+!tests/
+!config_scripts/
