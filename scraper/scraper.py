@@ -9,6 +9,9 @@ BASE_URL = "https://sklep.kfd.pl"
 OUTPUT_FILE = "kfd_dataset.csv"
 
 
+how_many_products_to_parse = 2 
+
+
 
 def scrape_kfd_products():
     base_url = "https://sklep.kfd.pl/sklep-kfd-c-2.html?order=product.sales.desc"
@@ -20,7 +23,7 @@ def scrape_kfd_products():
     product_links = []
     page = 1
     
-    while len(product_links) < 2:
+    while len(product_links) < how_many_products_to_parse:
         url = f"{base_url}&page={page}"
         
         try:
@@ -49,7 +52,7 @@ def scrape_kfd_products():
                     product_links.append(href)
                     new_products_found = True
                     
-                    if len(product_links) >= 2:
+                    if len(product_links) >= how_many_products_to_parse:
                         break
             
             if not new_products_found:
