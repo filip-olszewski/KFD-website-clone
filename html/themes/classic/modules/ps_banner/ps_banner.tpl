@@ -28,4 +28,12 @@
   {else}
     <span>{$banner_desc}</span>
   {/if}
+  <div>
+  <h1> Odżywki - suplementy - KFD </h1>
+  <p><b>KFD sp. z o. o.</b> należy do czołowych producentów i dystrybutorów suplementów diety w Polsce. Historia marki KFD rozpoczęła się od działalności Kulturystycznego Forum Dyskusyjnego (stąd skrót "KFD"), miejsca stworzonego do wymiany doświadczeń osób zainteresowanych treningiem i zdrowym odżywianiem. <br>
+Powstanie własnej marki suplementów diety KFD było odpowiedzią na sytuację na rynku, gdzie dominowały drogie produkty sprowadzane głównie z USA oraz Kanady, których składy często były niejasne ze względu na niedoskonałości przepisów dotyczących suplementów diety. Naszym celem było zapewnienie klientom dostępu do bezpiecznych, skutecznych i przystępnych cenowo produktów o jasnych składach.
+W naszym sklepie nie znajdziesz sztucznych promocji czy kilkudziesięcioprocentowych obniżek, produkty <b>KFD</b> cały rok są dostępne w cenie, na którą możesz sobie pozwolić.<br>
+Aby zagwarantować najwyższą jakość produktów oraz optymalizację kosztów, stworzyliśmy nowoczesny zakład produkcyjny KFD we Wróblowicach, przygotowany do wytwarzania nie tylko suplementów diety, ale i leków. 
+Nieustannie pracujemy nad poszerzeniem i ulepszeniem naszej oferty, dlatego obok odżywek i suplementów diety znajdziesz akcesoria treningowe, produkty wegańskie, gotowe posiłki, słodycze, czy inne produkty, które na co dzień wykorzystujesz w kuchni. 
+  </div></p>
 </a>

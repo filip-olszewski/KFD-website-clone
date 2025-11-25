@@ -29,6 +29,13 @@
     {/block}
   </div>
 </div>
+<div class="container footer-image-container">
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <img src="{$urls.img_url}footer.png" alt="Obrazek w stopce" class="img-fluid">
+        </div>
+    </div>
+</div>
 <div class="footer-container">
   <div class="container">
     <div class="row">

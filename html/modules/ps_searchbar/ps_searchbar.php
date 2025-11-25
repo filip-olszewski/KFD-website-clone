@@ -75,6 +75,7 @@ class Ps_Searchbar extends Module implements WidgetInterface
             && $this->registerHook('displayTop')
             && $this->registerHook('displaySearch')
             && $this->registerHook('displayHeader')
+            && $this->registerHook('displayNav2')
         ;
     }
 
@@ -83,6 +84,12 @@ class Ps_Searchbar extends Module implements WidgetInterface
         $this->context->controller->addJqueryUI('ui.autocomplete');
         $this->context->controller->registerStylesheet('modules-searchbar', 'modules/' . $this->name . '/ps_searchbar.css');
         $this->context->controller->registerJavascript('modules-searchbar', 'modules/' . $this->name . '/ps_searchbar.js', ['position' => 'bottom', 'priority' => 150]);
+    }
+
+    public function hookDisplayNav2($params)
+    {
+        // Wyświetl to samo, co wyświetlasz na górze
+        return $this->renderWidget('displayTop', $params);
     }
 
     public function getWidgetVariables($hookName, array $configuration = [])

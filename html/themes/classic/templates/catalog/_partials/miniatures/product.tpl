@@ -26,6 +26,10 @@
 <div class="js-product product{if !empty($productClasses)} {$productClasses}{/if}">
   <article class="product-miniature js-product-miniature" data-id-product="{$product.id_product}" data-id-product-attribute="{$product.id_product_attribute}">
     <div class="thumbnail-container">
+
+
+      {include file='catalog/_partials/product-flags.tpl'}
+
       <div class="thumbnail-top">
         {block name='product_thumbnail'}
           {if $product.cover}
@@ -51,19 +55,7 @@
           {/if}
         {/block}
 
-        <div class="highlighted-informations{if !$product.main_variants} no-variants{/if}">
-          {block name='quick_view'}
-            <a class="quick-view js-quick-view" href="#" data-link-action="quickview">
-              <i class="material-icons search">&#xE8B6;</i> {l s='Quick view' d='Shop.Theme.Actions'}
-            </a>
-          {/block}
-
-          {block name='product_variants'}
-            {if $product.main_variants}
-              {include file='catalog/_partials/variant-links.tpl' variants=$product.main_variants}
-            {/if}
-          {/block}
-        </div>
+        
       </div>
 
       <div class="product-description">
@@ -112,7 +104,21 @@
         {/block}
       </div>
 
-      {include file='catalog/_partials/product-flags.tpl'}
+      <div class="info">
+
+          {block name='quick_view'}
+            <a class="quick-view js-quick-view" href="#" data-link-action="quickview">
+              <i class="material-icons search">&#xE8B6;</i> {l s='Quick view' d='Shop.Theme.Actions'}
+            </a>
+          {/block}
+
+          {block name='product_variants'}
+            {if $product.main_variants}
+              {include file='catalog/_partials/variant-links.tpl' variants=$product.main_variants}
+            {/if}
+          {/block}
+        </div>
+        
     </div>
   </article>
 </div>
