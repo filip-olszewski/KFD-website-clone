@@ -1,6 +1,9 @@
 # --- BAZA DANYCH (Kluczowe!) ---
 db_data/
 
+# --- VIRTUAL ENVIRONMENT ---
+virt/
+
 # --- PLIKI SYSTEMOWE I IDE ---
 .DS_Store
 Thumbs.db

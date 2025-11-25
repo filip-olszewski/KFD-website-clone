@@ -1,5 +1,5 @@
 from pprint import pprint
-import requests
+import cloudscraper 
 from bs4 import BeautifulSoup
 import csv
 import time
@@ -9,17 +9,18 @@ from urllib.parse import urlparse, urljoin
 BASE_URL = "https://sklep.kfd.pl"
 OUTPUT_FILE = "kfd_dataset.csv"
 
+how_many_pages_to_parse = 10
 
-how_many_pages_to_parse = 1
-
-
+scraper = cloudscraper.create_scraper(
+    browser={
+        'browser': 'chrome',
+        'platform': 'windows',
+        'desktop': True
+    }
+)
 
 def scrape_kfd_products():
     base_url = "https://sklep.kfd.pl/sklep-kfd-c-2.html?order=product.sales.desc"
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
-    }
     
     product_links = []
     
@@ -27,10 +28,11 @@ def scrape_kfd_products():
         url = f"{base_url}&page={page}"
         
         try:
-            delay = random.uniform(1.5, 3.0)
+            delay = random.uniform(3.0, 6.0) 
             time.sleep(delay)
             
-            response = requests.get(url, headers=headers)
+            print(f"Scraping Listing Page: {page}...")
+            response = scraper.get(url) 
             
             if response.status_code != 200:
                 print(f"Failed to retrieve page {page}. Status code: {response.status_code}")
@@ -62,19 +64,23 @@ def scrape_kfd_products():
 
     return product_links
 
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36",
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-    "Accept-Language": "pl-PL,pl;q=0.9,en-US;q=0.8,en;q=0.7"
-}
-
-def get_soup(url):
+def get_soup(url, referer=None):
     try:
-        delay = random.uniform(1.5, 3.0)
+        delay = random.uniform(2.5, 5.0) 
         time.sleep(delay)
         
-        response = requests.get(url, headers=HEADERS, timeout=15)
+        # Update headers specifically for this request to include Referer
+        headers = {}
+        if referer:
+            headers['Referer'] = referer
+
+        response = scraper.get(url, headers=headers, timeout=20)
+        
+        if response.status_code == 403:
+            print(f"[BLOCKED] 403 Forbidden on {url}. Waiting 30s...")
+            time.sleep(30)
+            return None
+            
         response.raise_for_status()
         return BeautifulSoup(response.text, 'html.parser')
     except Exception as e:
@@ -86,16 +92,13 @@ def clean_text(text):
         return " ".join(text.split())
     return ""
 
-
 def extract_plain_text(element):
     if not element:
         return ""
-
     text = element.get_text(separator="\n")
     lines = [clean_text(line) for line in text.splitlines()]
     non_empty = [line for line in lines if line]
     return "\n".join(non_empty)
-
 
 def extract_gallery_images(soup):
     gallery_images = []
@@ -104,9 +107,7 @@ def extract_gallery_images(soup):
 
     seen = set()
     for img in soup.select("ul.product-images img"):
-        img_url = (
-            img.get("data-image-medium-src")
-        )
+        img_url = img.get("data-image-medium-src")
 
         if not img_url:
             continue
@@ -117,7 +118,6 @@ def extract_gallery_images(soup):
             gallery_images.append(full_url)
 
     return gallery_images
-
 
 def extract_similar_products(soup):
     similar_links = []
@@ -154,9 +154,10 @@ def extract_similar_products(soup):
 
     return similar_links, similar_images
 
-
 def parse_product_details(product_url):
-    soup = get_soup(product_url)
+    # Pass the listing page as the 'Referer' to look natural
+    referer = "https://sklep.kfd.pl/sklep-kfd-c-2.html"
+    soup = get_soup(product_url, referer=referer)
    
     if not soup:
         return None
@@ -175,8 +176,6 @@ def parse_product_details(product_url):
         "similar_product_images": []
     }
 
-
-
     h1 = soup.find("h1")
     item["name"] = clean_text(h1.get_text()) if h1 else "Unknown"
 
@@ -194,18 +193,14 @@ def parse_product_details(product_url):
 
     filtered_segments = [segment for segment in breadcrumb_segments if segment and segment.lower()]
     if filtered_segments:
-        categories_to_use = filtered_segments
-        item["path"] = "/".join(categories_to_use)
-
+        item["path"] = "/".join(filtered_segments)
 
     price_span = soup.find("span", class_="current-price-value")
-    # print(f"Price span found: {price_span}")
     if price_span:
         price_text = price_span.get("content") or price_span.get_text()
         item["price"] = clean_text(price_text).replace("\xa0zł", "").strip()
     else:
         item["price"] = "0"
-
 
     cover_img = soup.find("img", class_="js-qv-product-cover")
     if cover_img and cover_img.get("src"):
@@ -245,38 +240,45 @@ def parse_product_details(product_url):
     return item
 
 def main():
+    print("Starting scrape...")
     links_to_parse = scrape_kfd_products()
-    pprint(f"Total product links to parse: {links_to_parse}")
+    pprint(f"Total product links to parse: {len(links_to_parse)}")
 
     all_products = []
-    for link in links_to_parse:
+    
+    for i, link in enumerate(links_to_parse):
+        print(f"[{i+1}/{len(links_to_parse)}] Processing: {link}")
         x = parse_product_details(link)
-        print(x)
         if x:
             all_products.append(x)
-    
-    if all_products:
-        with open("x.csv", "w", encoding="utf-8", newline='') as fx:
-            fieldnames = [
-                "name","active",  "path", "description_text", #"description_html",
-                "price", "main_image", "gallery_images",
-                "tastes", "similar_products", "similar_product_images"
-            ]
-            writer = csv.DictWriter(fx, fieldnames=fieldnames)
-            writer.writeheader()
-            
-            for product in all_products:
-                # Convert lists to strings for CSV
-                row = product.copy()
-                row["gallery_images"] = "|".join(row["gallery_images"]) if row["gallery_images"] else ""
-                row["tastes"] = "|".join(row["tastes"]) if row["tastes"] else ""
-                row["similar_products"] = "|".join(row["similar_products"]) if row["similar_products"] else ""
-                row["similar_product_images"] = "|".join(row["similar_product_images"]) if row["similar_product_images"] else ""
-                writer.writerow(row)
         
-        print("Saved x.csv")
-    else:
-        print("No products to save.")
+        # Save explicitly every 5 items to avoid losing data on crash
+        if i % 5 == 0 and all_products:
+             save_to_csv(all_products)
+
+    save_to_csv(all_products)
+
+def save_to_csv(all_products):
+    if not all_products:
+        return
+
+    with open("kfd_dataset.csv", "w", encoding="utf-8", newline='') as fx:
+        fieldnames = [
+            "name","active",  "path", "description_text", "description_html",
+            "price", "main_image", "gallery_images",
+            "tastes", "similar_products", "similar_product_images"
+        ]
+        writer = csv.DictWriter(fx, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for product in all_products:
+            row = product.copy()
+            row["gallery_images"] = "|".join(row["gallery_images"]) if row["gallery_images"] else ""
+            row["tastes"] = "|".join(row["tastes"]) if row["tastes"] else ""
+            row["similar_products"] = "|".join(row["similar_products"]) if row["similar_products"] else ""
+            row["similar_product_images"] = "|".join(row["similar_product_images"]) if row["similar_product_images"] else ""
+            writer.writerow(row)
+    print("Saved progress to kfd_dataset.csv")
 
 if __name__ == "__main__":
     main()
