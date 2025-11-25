@@ -138,7 +138,12 @@
               {hook h='displayReassurance'}
             {/block}
 
-            {block name='product_tabs'}
+            
+        </div>
+      </div>
+    </div>
+
+    {block name='product_tabs'}
               <div class="tabs">
                 <ul class="nav nav-tabs" role="tablist">
                   {if $product.description}
@@ -181,6 +186,16 @@
                         aria-controls="extra-{$extraKey}">{$extra.title}</a>
                     </li>
                   {/foreach}
+                  <li class="nav-item">
+                    <a
+                      class="nav-link"
+                      data-toggle="tab"
+                      href="#opinie"
+                      role="tab"
+                      aria-controls="opinie">
+                      {l s='Opinie' d='Shop.Theme.Catalog'}
+                    </a>
+                  </li>
                 </ul>
 
                 <div class="tab-content" id="tab-content">
@@ -218,12 +233,15 @@
                    {$extra.content nofilter}
                  </div>
                  {/foreach}
+
+                 <div class="tab-pane fade" id="opinie" role="tabpanel">
+                  {hook h='displayFooterProduct' mod='productcomments' product=$product}
+                </div>
               </div>
+
+              
             </div>
-          {/block}
-        </div>
-      </div>
-    </div>
+            {/block}
 
     {block name='product_accessories'}
       {if $accessories}
@@ -238,10 +256,6 @@
           </div>
         </section>
       {/if}
-    {/block}
-
-    {block name='product_footer'}
-      {hook h='displayFooterProduct' product=$product category=$category}
     {/block}
 
     {block name='product_images_modal'}
