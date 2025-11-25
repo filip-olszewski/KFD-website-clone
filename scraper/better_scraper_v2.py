@@ -9,7 +9,7 @@ from urllib.parse import urlparse, urljoin
 BASE_URL = "https://sklep.kfd.pl"
 OUTPUT_FILE = "kfd_dataset.csv"
 
-how_many_pages_to_parse = 10
+how_many_pages_to_parse = 7
 
 scraper = cloudscraper.create_scraper(
     browser={
@@ -165,7 +165,7 @@ def parse_product_details(product_url):
     item = {
         "active": 1,
         "name": "",
-        "path": "", 
+        "category": "", 
         "description_text": "",
         "description_html": "",
         "price": "",
@@ -193,7 +193,7 @@ def parse_product_details(product_url):
 
     filtered_segments = [segment for segment in breadcrumb_segments if segment and segment.lower()]
     if filtered_segments:
-        item["path"] = "/".join(filtered_segments)
+        item["category"] = "/".join(filtered_segments)
 
     price_span = soup.find("span", class_="current-price-value")
     if price_span:
@@ -264,7 +264,7 @@ def save_to_csv(all_products):
 
     with open("kfd_dataset.csv", "w", encoding="utf-8", newline='') as fx:
         fieldnames = [
-            "name","active",  "path", "description_text", "description_html",
+            "name","active",  "category", "description_text", "description_html",
             "price", "main_image", "gallery_images",
             "tastes", "similar_products", "similar_product_images"
         ]
