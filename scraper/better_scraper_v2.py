@@ -9,7 +9,7 @@ from urllib.parse import urlparse, urljoin
 BASE_URL = "https://sklep.kfd.pl"
 OUTPUT_FILE = "kfd_dataset.csv"
 
-how_many_pages_to_parse = 7
+how_many_pages_to_parse = 3
 
 scraper = cloudscraper.create_scraper(
     browser={
@@ -82,10 +82,30 @@ def get_soup(url, referer=None):
             return None
             
         response.raise_for_status()
-        return BeautifulSoup(response.text, 'html.parser')
+        html_text = response.text
+        soup = BeautifulSoup(html_text, 'html.parser')
+        setattr(soup, "_raw_html", html_text)
+        return soup
     except Exception as e:
         print(f"[ERROR] {url}: {e}")
         return None
+
+def extract_section_html(soup, section_id):
+    if not soup:
+        return ""
+
+    section = soup.find(id=section_id)
+    if section:
+        return str(section)
+
+    raw_html = getattr(soup, "_raw_html", "")
+    if not raw_html:
+        return ""
+
+    cleaned_html = raw_html.replace(' id=""', '').replace(' class=""', '')
+    fallback_soup = BeautifulSoup(cleaned_html, 'html.parser')
+    fallback_section = fallback_soup.find(id=section_id)
+    return str(fallback_section) if fallback_section else ""
 
 def clean_text(text):
     if text:
@@ -168,6 +188,8 @@ def parse_product_details(product_url):
         "category": "", 
         "description_text": "",
         "description_html": "",
+        "badania": "",
+        "how_to_use": "",
         "price": "",
         "main_image": "",
         "gallery_images": [],
@@ -236,12 +258,22 @@ def parse_product_details(product_url):
         if description_div:
             item["description_text"] = extract_plain_text(description_div)
             item["description_html"] = str(description_div)
+
+    attachments_html = extract_section_html(soup, "attachments")
+    if attachments_html:
+        item["badania"] = attachments_html
+
+    how_to_use_html = extract_section_html(soup, "extra-0")
+    if how_to_use_html:
+        item["how_to_use"] = how_to_use_html
     
     return item
 
 def main():
     print("Starting scrape...")
     links_to_parse = scrape_kfd_products()
+
+    
     pprint(f"Total product links to parse: {len(links_to_parse)}")
 
     all_products = []
@@ -264,7 +296,7 @@ def save_to_csv(all_products):
 
     with open("kfd_dataset.csv", "w", encoding="utf-8", newline='') as fx:
         fieldnames = [
-            "name","active",  "category", "description_text", "description_html",
+            "name","active",  "category", "description_text", "description_html", "badania", "how_to_use",
             "price", "main_image", "gallery_images",
             "tastes", "similar_products", "similar_product_images"
         ]
