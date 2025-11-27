@@ -46,3 +46,20 @@ html/themes/*/assets/cache/
 !scraper/
 !tests/
 !config_scripts/
+
+# python
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
