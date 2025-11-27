@@ -1,6 +1,6 @@
 # KFD- Projekt PrestaShop
 
-## 📝
+📝
 Projekt został zrealizowany w ramach przedmiotu **Biznes elektroniczny**
 
 Celem projektu było stworzenie w pełni funkcjonalnego sklepu internetowego opartego na silniku PrestaShop 1.7.8.
@@ -11,6 +11,4 @@ Celem projektu było stworzenie w pełni funkcjonalnego sklepu internetowego opa
 *   **Franciszek Kuczkowski** - 198115
 *   **Artem Ivliiev** - 201252 
 *   **Filip Olszewski** - 198381 
-*   
-
 ---
