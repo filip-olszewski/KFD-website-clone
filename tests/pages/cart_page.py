@@ -1,4 +1,5 @@
 from selenium.webdriver.common.by import By
+import random
 
 from .base_page import BasePage
 
@@ -18,3 +19,15 @@ class CartPage(BasePage):
     
     def get_len_of_cart(self):
         return len(self.get_items())
+    
+    def remove_item_by_index(self, index):
+        buttons = self.driver.find_elements(*self.REMOVE_BUTTONS)
+        buttons[index].click()
+
+    def remove_random_items(self, count):
+        for _ in range(count):
+            items = self.get_items()
+            if not items:
+                break
+            random_index = random.randint(0, len(items) - 1)
+            self.remove_item_by_index(random_index)
