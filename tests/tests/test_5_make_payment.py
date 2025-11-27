@@ -1,5 +1,7 @@
 from pages.cart_page import CartPage
 from pages.order_page import OrderPage
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 
 def test_make_payment(driver):
@@ -18,3 +20,8 @@ def test_make_payment(driver):
     )
 
     order.choose_shipping()
+
+    order.choose_payment_and_confirm()
+
+    WebDriverWait(driver, 10).until(lambda d: "/order-confirmation" in d.current_url)
+    assert "/order-confirmation" in driver.current_url
