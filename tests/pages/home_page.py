@@ -14,3 +14,12 @@ class HomePage(BasePage):
     def search(self, text):
         field = self.find(self.SEARCH_INPUT)
         field.send_keys(text + Keys.ENTER)
+
+    def open_cart(self):
+        self.wait_to_disappear(self.CART_MODAL)
+        self.click(self.CART_BUTTON)
+
+    def cart_count(self):
+        text = self.find(self.CART_COUNT).text
+        text = text.replace("(", "").replace(")", "")
+        return int(text)
