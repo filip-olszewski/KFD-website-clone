@@ -16,3 +16,5 @@ def test_make_payment(driver):
         country="United Kingdom",
         phone="07123456789"
     )
+
+    order.choose_shipping()
