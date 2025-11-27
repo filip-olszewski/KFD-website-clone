@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 import random
 
 from .base_page import BasePage
@@ -23,6 +25,11 @@ class CartPage(BasePage):
     def remove_item_by_index(self, index):
         buttons = self.driver.find_elements(*self.REMOVE_BUTTONS)
         buttons[index].click()
+
+        # It's needed cuz PrestaShop deletes elements from cart with ajax
+        WebDriverWait(self.driver, 10).until(
+            EC.staleness_of(buttons[index])
+        )
 
     def remove_random_items(self, count):
         for _ in range(count):
