@@ -9,7 +9,7 @@ from urllib.parse import urlparse, urljoin
 BASE_URL = "https://sklep.kfd.pl"
 OUTPUT_FILE = "kfd_dataset.csv"
 
-how_many_pages_to_parse = 3
+how_many_pages_to_parse = 64
 
 scraper = cloudscraper.create_scraper(
     browser={
@@ -28,7 +28,7 @@ def scrape_kfd_products():
         url = f"{base_url}&page={page}"
         
         try:
-            delay = random.uniform(3.0, 6.0) 
+            delay = random.uniform(3.0, 8.0) 
             time.sleep(delay)
             
             print(f"Scraping Listing Page: {page}...")
@@ -66,7 +66,7 @@ def scrape_kfd_products():
 
 def get_soup(url, referer=None):
     try:
-        delay = random.uniform(2.5, 5.0) 
+        delay = random.uniform(2.5, 7.0) 
         time.sleep(delay)
         
         # Update headers specifically for this request to include Referer
