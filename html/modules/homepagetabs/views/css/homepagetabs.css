@@ -1,0 +1,28 @@
+/**
+ * PrestaShop module created by VEKIA, a guy from official PrestaShop community ;-)
+ *
+ * @author    VEKIA PL MILOSZ MYSZCZUK VATEU: PL9730945634
+ * @copyright 2010-2025 VEKIA
+ * @license   This program is not free software and you can't resell and redistribute it
+ *
+ * CONTACT WITH DEVELOPER http://mypresta.eu
+ * support@mypresta.eu
+ */
+
+#index .tabs {
+    padding: 0px;
+    margin-bottom:20px;
+}
+
+#index #home-page-tabs {
+    margin: 0px 10px;
+    padding: 10px 0px 0px 0px;
+}
+
+
+.tabs .all-product-link {
+    display: block;
+    text-align: right;
+    margin: 10px;
+    padding: 10px;
+}
