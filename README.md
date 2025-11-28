@@ -56,7 +56,7 @@ docker compose up
 
 ## Dodatkowe źródła
 
-* [prestashop](https://prestashop.com/)
-* [selenium](https://www.selenium.dev/)
+* [prestashop 1.7.8](https://prestashop.com/)
+* [selenium 4.38.0](https://www.selenium.dev/)
 * [kopiowany sklep](https://sklep.kfd.pl/)
 * [docker](https://www.docker.com/)
