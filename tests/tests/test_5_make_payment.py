@@ -13,7 +13,7 @@ def test_make_payment(driver):
         firstname="Test",
         lastname="User",
         address="10 Downing Street",
-        postal="SW1A 2AA",
+        postal="80-111",
         city="London",
         country="United Kingdom",
         phone="07123456789"
@@ -23,5 +23,5 @@ def test_make_payment(driver):
 
     order.choose_payment_and_confirm()
 
-    WebDriverWait(driver, 10).until(lambda d: "/order-confirmation" in d.current_url)
-    assert "/order-confirmation" in driver.current_url
+    WebDriverWait(driver, 10).until(lambda d: "/potwierdzenie-zamowienia" in d.current_url)
+    assert "/potwierdzenie-zamowienia" in driver.current_url

@@ -11,7 +11,7 @@ def test_add_random_product(driver):
     cart = CartPage(driver)
 
     home.open_home()
-    home.search("test") # to change
+    home.search("krem") # to change
     initial = cart.get_amount_of_products()
     search.open_random_product()
     product.add_to_cart()

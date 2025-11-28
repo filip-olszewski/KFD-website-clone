@@ -1,5 +1,6 @@
 from .base_page import BasePage
 from selenium.webdriver.common.by import By
+from time import sleep
 
 class RegisterPage(BasePage):
     GENDER_MR = (By.ID, "field-id_gender-1")
@@ -25,7 +26,7 @@ class RegisterPage(BasePage):
     SUCCESS_MESSAGE = (By.CSS_SELECTOR, ".alert-success") 
             
     def open_register(self):
-        self.open("http://localhost:8080/login?create_account=1")
+        self.open("http://localhost:8080/logowanie?create_account=1")
 
     def register(self, gender="Mr", firstname="", lastname="", email="", password="", birthdate="", newsletter=False, optin=False):
         if gender.lower() == "mr":

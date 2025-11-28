@@ -38,3 +38,9 @@ class CartPage(BasePage):
                 break
             random_index = random.randint(0, len(items) - 1)
             self.remove_item_by_index(random_index)
+
+    def get_amount_of_products(self):
+        return int(self.driver.find_element(*self.CART_AMOUNT).text.strip("()"))
+    
+    def get_len_of_cart(self):
+        return len(self.get_items())
