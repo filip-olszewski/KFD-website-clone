@@ -132,6 +132,11 @@
                 </form>
               {/block}
 
+              <div class="sidebar-products-container">
+    <p class="h4">Podobne produkty:</p>
+   {widget name='ps_newproducts' limit=3}
+</div>
+
             </div>
 
             {block name='hook_display_reassurance'}
@@ -142,6 +147,8 @@
         </div>
       </div>
     </div>
+
+    
 
     {block name='product_tabs'}
               <div class="tabs">
