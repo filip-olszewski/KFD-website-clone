@@ -1,9 +1,49 @@
-# KFD- Projekt PrestaShop
+# Tytuł projektu
 
-📝
-Projekt został zrealizowany w ramach przedmiotu **Biznes elektroniczny**
+BIZNES ELEKTRONICZNY PROJEKT
 
-Celem projektu było stworzenie w pełni funkcjonalnego sklepu internetowego opartego na silniku PrestaShop 1.7.8.
+## Opis projektu
+
+Projekt stanowi kopię sklepu internetowego KFD. Kopia została wykonana przy użyciu narzędzia Prestashop [text](https://prestashop.com/). 
+
+## ⚙️ Uruchamianie projektu
+
+Aby uruchomić aplikację, użyj Dockera:
+
+```bash
+docker compose up
+```
+
+---
+
+## 🧪 Uruchamianie testów
+
+1. Utwórz środowisko wirtualne:
+   ```bash
+   python -m venv venv
+   ```
+
+2. Aktywuj środowisko:
+
+   **Linux/macOS:**
+   ```bash
+   source venv/bin/activate
+   ```
+
+   **Windows:**
+   ```powershell
+   .\venv\Scripts\activate
+   ```
+
+3. Zainstaluj zależności:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+4. Uruchom testy:
+   ```bash
+   pytest -v
+   ```
 
 
 ## 👥 Autorzy
@@ -12,3 +52,11 @@ Celem projektu było stworzenie w pełni funkcjonalnego sklepu internetowego opa
 *   **Artem Ivliiev** - 201252 
 *   **Filip Olszewski** - 198381 
 ---
+
+
+## Dodatkowe źródła
+
+* [prestashop](https://prestashop.com/)
+* [selenium](https://www.selenium.dev/)
+* [kopiowany sklep](https://sklep.kfd.pl/)
+* [docker](https://www.docker.com/)
