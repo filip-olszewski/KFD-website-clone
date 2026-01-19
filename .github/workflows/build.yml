@@ -4,8 +4,9 @@ name: Build PrestaShop Image
 on:
   push:
     branches:
-      - "main"
-      - "master"
+      - "actions-test"
+#      - "main"
+#      - "master"
 
 jobs:
   build_and_push:
