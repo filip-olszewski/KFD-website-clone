@@ -1,0 +1,36 @@
+name: Build PrestaShop Image
+
+# Wyzwalanie automatyczne przy pushu do main lub master
+on:
+  push:
+    branches:
+      - "main"
+      - "master"
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Pobranie kodu z repozytorium
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. Logowanie do Docker Hub (używa sekretów, nie wpisuj hasła na sztywno!)
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # 3. Konfiguracja QEMU i Buildx (wymagane do budowania obrazów w Actions)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # 4. Zbudowanie obrazu i wysłanie (push) do Docker Hub
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          # Tutaj wpisz nazwę swojego obrazu (bazując na twoich logach)
+          tags: filipolszewski/be_198013:latest
