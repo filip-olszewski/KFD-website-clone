@@ -33,7 +33,9 @@ COPY parameters.php /var/www/html/app/config/parameters.php
 # === 7. Uprawnienia ===
 RUN chown -R www-data:www-data /var/www/html && \
     chmod 644 /var/www/html/app/config/parameters.php && \
-    chmod 644 /var/www/html/.htaccess
+    chmod 644 /var/www/html/.htaccess && \
+    chown -R www-data:www-data /var/www/html/var/cache && \
+    chmod -R 775 /var/www/html/var/cache
 
 USER www-data
 EXPOSE 80
