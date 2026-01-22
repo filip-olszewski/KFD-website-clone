@@ -6,7 +6,8 @@ USER root
 COPY ./html/themes /var/www/html/themes
 COPY ./html/modules /var/www/html/modules
 COPY ./html/override /var/www/html/override
-
+COPY ./html/translations /var/www/html/translations
+COPY ./html/app/Resources/translations /var/www/html/app/Resources/translations
 COPY ./html/img /var/www/html/img
 
 # === 2. OPcache ===

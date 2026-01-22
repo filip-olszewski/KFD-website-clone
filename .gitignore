@@ -23,6 +23,7 @@ html/*
 
 # -> MOTYWY (Tutaj będziesz zmieniał wygląd)
 !html/translations/
+!html/app/Resources/translations
 !html/themes/
 # Ale ignoruj cache i assety wewnątrz motywów
 html/themes/*/cache/
