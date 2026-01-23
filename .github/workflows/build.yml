@@ -34,4 +34,6 @@ jobs:
           context: .
           push: true
           # Tutaj wpisz nazwę swojego obrazu (bazując na twoich logach)
-          tags: filipolszewski/be_198013:latest
+          tags: |
+            filipolszewski/be_198013:latest
+            filipolszewski/be_198013:${{ github.sha }}
