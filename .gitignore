@@ -22,6 +22,8 @@ html/*
 !html/.gitkeep
 
 # -> MOTYWY (Tutaj będziesz zmieniał wygląd)
+!html/translations/
+!html/app/Resources/translations
 !html/themes/
 # Ale ignoruj cache i assety wewnątrz motywów
 html/themes/*/cache/
@@ -29,6 +31,7 @@ html/themes/*/assets/cache/
 
 # -> MODUŁY (Jeśli napiszesz własny moduł lub zmienisz konfigurację)
 !html/modules/
+!html/img/
 # Opcjonalnie: ignoruj domyślne, ciężkie moduły, ale na start bezpieczniej zostawić
 
 # -> OVERRIDES (Nadpisywanie funkcji Presty)
